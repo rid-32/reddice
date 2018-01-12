@@ -1,3 +1,4 @@
+import { createServer } from 'http';
 import express from 'express';
 import path from 'path';
 
@@ -7,6 +8,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../webpack.config.dev.js';
 
 let app = express();
+const server = createServer(app);
 
 const compiler = webpack(webpackConfig);
 
@@ -17,8 +19,9 @@ app.use(webpackMiddleware(compiler, {
 }));
 app.use(webpackHotMiddleware(compiler));
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
+
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(3000, () => console.log('Server started on port 3000'));
+server.listen(3000, () => console.log('Server started on port 3000'));
