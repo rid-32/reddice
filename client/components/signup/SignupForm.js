@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import timezones from '../../data/timezones';
 
-export default class SignupForm extends Component {
+class SignupForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,7 +23,7 @@ export default class SignupForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    console.log(this.state);
+    this.props.userRequest(this.state);
   }
 
   render() {
@@ -30,11 +31,28 @@ export default class SignupForm extends Component {
       <option key={ item } value={ timezones[item] }>{ item }</option>
     ));
 
+    let errors = this.props.signupErrors;
+
+    function createHelpBlock(str) {
+      return (
+        <span className="has-error">{ str }</span>
+      );
+    }
+
+    function formGroupClasses(err) {
+      let classN = 'form-group';
+      if (err) {
+        classN += ' has-error';
+      }
+
+      return classN;
+    }
+
     return (
       <form onSubmit={ this.onSubmit }>
         <h1>Join our community!</h1>
 
-        <div className="form-group">
+        <div className={ formGroupClasses(errors.username) }>
           <label htmlFor="usernameId" className="control-label">Username</label>
           <input
             id="usernameId"
@@ -44,9 +62,10 @@ export default class SignupForm extends Component {
             className="form-control"
             onChange={ this.onChange }
           />
+          { errors && createHelpBlock(errors.username) }
         </div>
 
-        <div className="form-group">
+        <div className={ formGroupClasses(errors.email) }>
           <label htmlFor="emailId" className="control-label">Email</label>
           <input
             id="emailId"
@@ -56,9 +75,10 @@ export default class SignupForm extends Component {
             className="form-control"
             onChange={ this.onChange }
           />
+          { errors && createHelpBlock(errors.email) }
         </div>
 
-        <div className="form-group">
+        <div className={ formGroupClasses(errors.password) }>
           <label htmlFor="passwordId" className="control-label">Password</label>
           <input
             id="passwordId"
@@ -68,9 +88,10 @@ export default class SignupForm extends Component {
             className="form-control"
             onChange={ this.onChange }
           />
+          { errors && createHelpBlock(errors.password) }
         </div>
 
-        <div className="form-group">
+        <div className={ formGroupClasses(errors.passwordConfirmation) }>
           <label htmlFor="passwordConfirmationId" className="control-label">Password Confirmation</label>
           <input
             id="passwordConfirmationId"
@@ -80,9 +101,10 @@ export default class SignupForm extends Component {
             className="form-control"
             onChange={ this.onChange }
           />
+          { errors && createHelpBlock(errors.passwordConfirmation) }
         </div>
 
-        <div className="form-group">
+        <div className={ formGroupClasses(errors.timezone) }>
           <label htmlFor="timezoneId" className="control-label">Timezone</label>
           <select
             id="timezoneId"
@@ -94,6 +116,7 @@ export default class SignupForm extends Component {
             <option value="" disabled>Choose Your Timezone</option>
             { options }
           </select>
+          { errors && createHelpBlock(errors.timezone) }
         </div>
 
         <div className="form-group">
@@ -103,3 +126,9 @@ export default class SignupForm extends Component {
     );
   }
 }
+
+SignupForm.propTypes = {
+  userRequest: PropTypes.func.isRequired,
+};
+
+export default SignupForm;

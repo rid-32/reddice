@@ -1,0 +1,11 @@
+.has-error {
+  color: red;
+}
+
+.has-error input {
+  border-color: red;
+}
+
+.has-error select {
+  border-color: red;
+}
