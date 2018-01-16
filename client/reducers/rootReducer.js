@@ -6,6 +6,7 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         signupErrors: {},
         isLoading: false,
+        isSignedUp: true,
       });
     case 'failedSignupRequest':
       return Object.assign({}, state, {

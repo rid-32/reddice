@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
@@ -11,27 +11,37 @@ import SignupPage from './components/signup/SignupPage';
 
 import rootReducer from './reducers/rootReducer';
 
+import history from './browserHistory';
+
 const store = createStore(
   rootReducer,
   applyMiddleware(thunk)
 );
 
-render(
-  <Provider store={ store }>
-    <Router>
-      <div>
-        <Route exact path="/" render={ ({ match }) => (
-          <App>
-            <Greetings />
-          </App>
-        ) } />
-        <Route path="/signup" render={ ({ match }) => (
-          <App>
-            <SignupPage />
-          </App>
-        ) } />
-      </div>
-    </Router>
-  </Provider>,
-  document.getElementById('root')
-);
+const unlisten = history.listen((location, action) => {
+  render(
+    <Provider store={ store }>
+      <Router>
+        <div>
+          <Route exact path="/" render={ ({ match }) => (
+            <App>
+              <Greetings />
+            </App>
+          ) } />
+          <Route path="/signup" render={ ({ match }) => (
+            store.getState().isSignedUp ? (
+              <Redirect to="/" />
+            ) : (
+              <App>
+                <SignupPage />
+              </App>
+            )
+          ) } />
+        </div>
+      </Router>
+    </Provider>,
+    document.getElementById('root')
+  );
+});
+
+history.push('/');

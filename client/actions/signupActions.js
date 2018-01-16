@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../browserHistory';
 
 export function userSignupRequest(userData) {
   return dispatch => axios.post('/api/users', userData)
@@ -7,6 +8,7 @@ export function userSignupRequest(userData) {
         dispatch({
           type: 'successSignupRequest',
         });
+        history.push('/');
       }
     )
     .catch(

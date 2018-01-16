@@ -6,10 +6,10 @@ let router = Router();
 router.post('/', (req, res) => {
   const { errors, isValid } = validateInput(req.body);
 
-  if (!isValid) {
-    res.status(400).json(errors);
+  if (isValid) {
+    res.json({ success: true });
   } else {
-    res.send('All were received!');
+    res.status(400).json(errors);
   }
 });
 
