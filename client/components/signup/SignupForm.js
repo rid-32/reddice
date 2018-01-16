@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import timezones from '../../data/timezones';
+import validateInput from '../../../server/shared/validations/signup';
+
+import TextFieldGroup from '../common/TextFieldGroup';
 
 class SignupForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
+      email: '',
       password: '',
       passwordConfirmation: '',
       timezone: '',
@@ -21,9 +25,22 @@ class SignupForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  isValid() {
+    const { errors, isValid } = validateInput(this.state);
+
+    if (!isValid) {
+      this.props.clientValidation(errors);
+    }
+
+    return isValid;
+  }
+
   onSubmit(e) {
     e.preventDefault();
-    this.props.userRequest(this.state);
+    if (this.isValid()) {
+      this.props.isLoading();
+      this.props.userRequest(this.state);
+    }
   }
 
   render() {
@@ -52,57 +69,41 @@ class SignupForm extends Component {
       <form onSubmit={ this.onSubmit }>
         <h1>Join our community!</h1>
 
-        <div className={ formGroupClasses(errors.username) }>
-          <label htmlFor="usernameId" className="control-label">Username</label>
-          <input
-            id="usernameId"
-            type="text"
-            name="username"
-            value={ this.state.username }
-            className="form-control"
-            onChange={ this.onChange }
-          />
-          { errors && createHelpBlock(errors.username) }
-        </div>
+        <TextFieldGroup
+          errors={ errors }
+          label="Username"
+          onChange={ this.onChange }
+          value={ this.state.username }
+          name="username"
+          type="text"
+        />
 
-        <div className={ formGroupClasses(errors.email) }>
-          <label htmlFor="emailId" className="control-label">Email</label>
-          <input
-            id="emailId"
-            type="email"
-            name="email"
-            value={ this.state.email }
-            className="form-control"
-            onChange={ this.onChange }
-          />
-          { errors && createHelpBlock(errors.email) }
-        </div>
+        <TextFieldGroup
+          errors={ errors }
+          label="Email"
+          onChange={ this.onChange }
+          value={ this.state.email }
+          name="email"
+          type="text"
+        />
 
-        <div className={ formGroupClasses(errors.password) }>
-          <label htmlFor="passwordId" className="control-label">Password</label>
-          <input
-            id="passwordId"
-            type="password"
-            name="password"
-            value={ this.state.password }
-            className="form-control"
-            onChange={ this.onChange }
-          />
-          { errors && createHelpBlock(errors.password) }
-        </div>
+        <TextFieldGroup
+          errors={ errors }
+          label="Password"
+          onChange={ this.onChange }
+          value={ this.state.password }
+          name="password"
+          type="password"
+        />
 
-        <div className={ formGroupClasses(errors.passwordConfirmation) }>
-          <label htmlFor="passwordConfirmationId" className="control-label">Password Confirmation</label>
-          <input
-            id="passwordConfirmationId"
-            type="password"
-            name="passwordConfirmation"
-            value={ this.state.passwordConfirmation }
-            className="form-control"
-            onChange={ this.onChange }
-          />
-          { errors && createHelpBlock(errors.passwordConfirmation) }
-        </div>
+        <TextFieldGroup
+          errors={ errors }
+          label="Password Confirmation"
+          onChange={ this.onChange }
+          value={ this.state.passwordConfirmation }
+          name="passwordConfirmation"
+          type="password"
+        />
 
         <div className={ formGroupClasses(errors.timezone) }>
           <label htmlFor="timezoneId" className="control-label">Timezone</label>
@@ -120,7 +121,7 @@ class SignupForm extends Component {
         </div>
 
         <div className="form-group">
-          <button className="btn btn-primary btn-lg">Sign up</button>
+          <button className="btn btn-primary btn-lg" disabled={ this.props.isLoad }>Sign up</button>
         </div>
       </form>
     );
@@ -129,6 +130,8 @@ class SignupForm extends Component {
 
 SignupForm.propTypes = {
   userRequest: PropTypes.func.isRequired,
+  isLoading: PropTypes.func.isRequired,
+  clientValidation: PropTypes.func.isRequired,
 };
 
 export default SignupForm;
