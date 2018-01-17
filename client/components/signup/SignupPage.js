@@ -10,7 +10,7 @@ class SignupPage extends Component {
     return (
       <div className="row">
         <div className="col-md-5 mx-auto">
-          <SignupForm userRequest={ this.props.userRequest } signupErrors={this.props.signupErrors} isLoading={this.props.isLoading} isLoad={this.props.isLoad} clientValidation={this.props.clientValidation}/>
+          <SignupForm userRequest={ this.props.userRequest } signupErrors={this.props.signupErrors} isLoading={this.props.isLoading} isLoad={this.props.isLoad} clientValidation={this.props.clientValidation} />
         </div>
       </div>
     );
@@ -19,8 +19,8 @@ class SignupPage extends Component {
 
 function mapStateToProps(state) {
   return {
-    signupErrors: state.signupErrors,
-    isLoad: state.isLoading,
+    signupErrors: state.signup.signupErrors,
+    isLoad: state.signup.isLoading,
   };
 }
 

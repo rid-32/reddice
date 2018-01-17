@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import App from './components/App';
 import Greetings from './components/Greetings';
@@ -15,7 +16,9 @@ import history from './browserHistory';
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunk)
+  composeWithDevTools(
+    applyMiddleware(thunk)
+  )
 );
 
 const unlisten = history.listen((location, action) => {
@@ -29,7 +32,7 @@ const unlisten = history.listen((location, action) => {
             </App>
           ) } />
           <Route path="/signup" render={ ({ match }) => (
-            store.getState().isSignedUp ? (
+            store.getState().signup.isSignedUp ? (
               <Redirect to="/" />
             ) : (
               <App>
