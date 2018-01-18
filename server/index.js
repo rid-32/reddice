@@ -2,6 +2,7 @@ import { createServer } from 'http';
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
 
 import webpack from 'webpack';
 import webpackMiddleware from 'webpack-dev-middleware';
@@ -12,6 +13,10 @@ import users from './routes/users';
 
 let app = express();
 const server = createServer(app);
+
+mongoose.Promise = global.Promise;
+
+mongoose.connect('mongodb://127.0.0.1:27017/reddice');
 
 app.use(bodyParser.json());
 app.use(express.static(path.resolve(__dirname, '../public')));
