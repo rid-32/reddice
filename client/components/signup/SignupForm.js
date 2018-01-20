@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 
 import timezones from '../../data/timezones';
 import validateInput from '../../../server/shared/validations/signup';
@@ -19,6 +20,7 @@ class SignupForm extends Component {
 
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.checkUserExists = this.checkUserExists.bind(this);
   }
 
   onChange(e) {
@@ -33,6 +35,31 @@ class SignupForm extends Component {
     }
 
     return isValid;
+  }
+
+  checkUserExists(e, errors) {
+    const field = e.target.name;
+    const val = e.target.value;
+
+    if (val !== '') {
+      this.props.isUserExists(val, errors, field);
+    }
+  }
+
+  checkEmptyField(e, errors) {
+    if (e.target.value !== '') {
+      this.props.erazeError(e.target.name, errors);
+    }
+  }
+
+  isEmptyErrors(errors) {
+    for (let error in errors) {
+      if (errors[error]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   onSubmit(e) {
@@ -76,6 +103,7 @@ class SignupForm extends Component {
           value={ this.state.username }
           name="username"
           type="text"
+          checkUserExists={(e) => this.checkUserExists(e, errors)}
         />
 
         <TextFieldGroup
@@ -85,6 +113,7 @@ class SignupForm extends Component {
           value={ this.state.email }
           name="email"
           type="text"
+          checkUserExists={(e) => this.checkUserExists(e, errors)}
         />
 
         <TextFieldGroup
@@ -94,6 +123,7 @@ class SignupForm extends Component {
           value={ this.state.password }
           name="password"
           type="password"
+          checkUserExists={ (e) => this.checkEmptyField(e, errors) }
         />
 
         <TextFieldGroup
@@ -103,6 +133,7 @@ class SignupForm extends Component {
           value={ this.state.passwordConfirmation }
           name="passwordConfirmation"
           type="password"
+          checkUserExists={ (e) => this.checkEmptyField(e, errors) }
         />
 
         <div className={ formGroupClasses(errors.timezone) }>
@@ -113,6 +144,7 @@ class SignupForm extends Component {
             value={ this.state.timezone }
             className="form-control"
             onChange={ this.onChange }
+            onBlur={ (e) => this.checkEmptyField(e, errors) }
           >
             <option value="" disabled>Choose Your Timezone</option>
             { options }
@@ -121,7 +153,7 @@ class SignupForm extends Component {
         </div>
 
         <div className="form-group">
-          <button className="btn btn-primary btn-lg" disabled={ this.props.isLoad }>Sign up</button>
+          <button className="btn btn-primary btn-lg" disabled={ this.props.isLoad || !this.isEmptyErrors(errors) }>Sign up</button>
         </div>
       </form>
     );
@@ -132,6 +164,7 @@ SignupForm.propTypes = {
   userRequest: PropTypes.func.isRequired,
   isLoading: PropTypes.func.isRequired,
   clientValidation: PropTypes.func.isRequired,
+  isUserExists: PropTypes.func.isRequired,
 };
 
 export default SignupForm;

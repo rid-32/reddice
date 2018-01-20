@@ -25,3 +25,22 @@ export function userSignupRequest(userData) {
       }
     );
 };
+
+export function isUserExists(identifier, errors, field) {
+  return dispatch => axios.get(`/api/users/${identifier}`)
+    .then(
+      (user) => {
+        let errorObj = Object.assign({}, errors);
+        if (user.data.user) {
+          errorObj[field] = `User with this ${field} is already exist.`;
+        } else {
+          errorObj[field] = '';
+        }
+
+        dispatch({
+          type: 'failedSignupRequest',
+          errorObj: errorObj,
+        });
+      }
+    );
+}

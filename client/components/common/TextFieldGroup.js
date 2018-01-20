@@ -30,6 +30,7 @@ class TextFieldGroup extends Component {
           value={ this.props.username }
           className="form-control"
           onChange={ this.props.onChange }
+          onBlur={ this.props.checkUserExists }
         />
         { this.props.errors && createHelpBlock(this.props.errors[this.props.name]) }
       </div>
@@ -43,6 +44,7 @@ TextFieldGroup.propTypes = {
   label: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  checkUserExists: PropTypes.func,
   errors: PropTypes.object,
 };
 

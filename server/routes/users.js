@@ -52,4 +52,12 @@ router.post('/', (req, res) => {
   });
 });
 
+router.get('/:identifier', (req, res) => {
+  const identifier = req.params.identifier;
+
+  User.findOne().or([{ username: identifier }, { email: identifier }]).select('username email').exec().then(user => {
+    res.json({ user });
+  });
+});
+
 export default router;
