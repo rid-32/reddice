@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import jwt from 'jsonwebtoken';
 
 import App from './components/App';
 import Greetings from './components/Greetings';
@@ -14,6 +15,7 @@ import LoginPage from './components/login/LoginPage';
 import rootReducer from './reducers/rootReducer';
 
 import history from './browserHistory';
+import setAuthorizationToken from './utils/setAuthorizationToken';
 
 const store = createStore(
   rootReducer,
@@ -21,6 +23,17 @@ const store = createStore(
     applyMiddleware(thunk)
   )
 );
+
+if (localStorage.jwtToken) {
+  setAuthorizationToken(localStorage.jwtToken);
+  store.dispatch({
+    type: 'successLoginRequest',
+    user: jwt.decode(localStorage.jwtToken),
+  });
+  store.dispatch({
+    type: 'successSignupRequest',
+  });
+}
 
 const unlisten = history.listen((location, action) => {
   render(

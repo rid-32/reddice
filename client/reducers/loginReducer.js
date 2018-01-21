@@ -1,10 +1,18 @@
-export default function (state = { loginRequestErrors: {}, loginErrors: {}, isLoggedIn: false }, action) {
+const initialState = {
+  loginRequestErrors: {},
+  loginErrors: {},
+  isLoggedIn: false,
+  user: {},
+};
+
+export default function (state = initialState, action) {
   switch (action.type) {
     case 'successLoginRequest':
       return Object.assign({}, state, {
         loginErrors: {},
         loginRequestErrors: {},
         isLoggedIn: true,
+        user: action.user,
       });
     case 'failedLoginRequest':
       return Object.assign({}, state, {
