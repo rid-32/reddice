@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 
 import TextFieldGroup from '../common/TextFieldGroup';
 import validateInput from '../../../server/shared/validations/login';
@@ -39,10 +40,19 @@ class LoginForm extends Component {
 
   render() {
     let errors = this.props.loginErrors;
+    let requestErrors = this.props.loginRequestErrors;
+
+    function createDangerBlock(str) {
+      return (
+        <div className="alert alert-danger">{ str }</div>
+      );
+    }
 
     return (
       <form onSubmit={ this.onSubmit }>
         <h1>Login</h1>
+
+        { !isEmpty(requestErrors) && createDangerBlock(requestErrors.form) }
 
         <TextFieldGroup
           type="text"

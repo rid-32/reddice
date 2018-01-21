@@ -12,8 +12,8 @@ userSchema.methods.encryptPassword = (password) => {
   return hashSync(password, genSaltSync(5), null);
 };
 
-userSchema.methods.validPassword = (password) => {
-  return compareSync(password, this.password_digest);
+userSchema.methods.validPassword = (password, password_digest) => {
+  return compareSync(password, password_digest);
 };
 
 export default mongoose.model('User', userSchema);

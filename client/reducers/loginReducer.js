@@ -1,13 +1,14 @@
-export default function (state = { loginErrors: {}, isLoggedIn: false }, action) {
+export default function (state = { loginRequestErrors: {}, loginErrors: {}, isLoggedIn: false }, action) {
   switch (action.type) {
     case 'successLoginRequest':
       return Object.assign({}, state, {
         loginErrors: {},
+        loginRequestErrors: {},
         isLoggedIn: true,
       });
     case 'failedLoginRequest':
       return Object.assign({}, state, {
-        loginErrors: action.errorObj,
+        loginRequestErrors: action.errorObj,
       });
     case 'failedLoginValidation':
       return Object.assign({}, state, {

@@ -9,7 +9,7 @@ class LoginPage extends Component {
     return (
       <div className="row">
         <div className="col-md-5 mx-auto">
-          <LoginForm loginErrors={ this.props.loginErrors } loginValidation={ this.props.loginValidation } loginRequest={ this.props.loginRequest } />
+          <LoginForm loginErrors={ this.props.loginErrors } loginValidation={ this.props.loginValidation } loginRequest={ this.props.loginRequest } loginRequestErrors={ this.props.loginRequestErrors } />
         </div>
       </div>
     );
@@ -19,6 +19,7 @@ class LoginPage extends Component {
 function mapStateToProps(state) {
   return {
     loginErrors: state.login.loginErrors,
+    loginRequestErrors: state.login.loginRequestErrors,
   };
 }
 

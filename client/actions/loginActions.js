@@ -13,7 +13,9 @@ export function userLoginRequest(data) {
       });
       history.push('/');
     })
-    .catch(errors => {
+    .catch(({ response }) => {
+      const errors = response.data.errors;
+
       dispatch({
         type: 'failedLoginRequest',
         errorObj: errors,
