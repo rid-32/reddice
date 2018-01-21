@@ -22,6 +22,12 @@ export default function (state = initialState, action) {
       return Object.assign({}, state, {
         loginErrors: action.errors,
       });
+    case 'userLogout':
+      localStorage.removeItem('jwtToken');
+      return Object.assign({}, state, {
+        isLoggedIn: false,
+        user: {},
+      });
     default: return state;
   }
 }

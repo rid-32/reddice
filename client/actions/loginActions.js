@@ -17,9 +17,6 @@ export function userLoginRequest(data) {
         type: 'successLoginRequest',
         user: currentUser,
       });
-      dispatch({
-        type: 'successSignupRequest',
-      });
 
       history.push('/');
     })

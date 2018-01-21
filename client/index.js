@@ -30,9 +30,6 @@ if (localStorage.jwtToken) {
     type: 'successLoginRequest',
     user: jwt.decode(localStorage.jwtToken),
   });
-  store.dispatch({
-    type: 'successSignupRequest',
-  });
 }
 
 const unlisten = history.listen((location, action) => {
