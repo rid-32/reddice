@@ -16,7 +16,7 @@ export default class App extends React.Component {
               <Link to="/signup" className="nav-link">Sign up</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Link</a>
+              <Link to="/login" className="nav-link">Login</Link>
             </li>
             <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -9,6 +9,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import App from './components/App';
 import Greetings from './components/Greetings';
 import SignupPage from './components/signup/SignupPage';
+import LoginPage from './components/login/LoginPage';
 
 import rootReducer from './reducers/rootReducer';
 
@@ -40,6 +41,15 @@ const unlisten = history.listen((location, action) => {
               </App>
             )
           ) } />
+          <Route path="/login" render={ ({ match }) => (
+            store.getState().login.isLoggedIn ? (
+              <Redirect to="/" />
+            ) : (
+              <App>
+                <LoginPage />
+              </App>
+            )
+          )} />
         </div>
       </Router>
     </Provider>,

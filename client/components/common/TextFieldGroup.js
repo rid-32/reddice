@@ -27,7 +27,7 @@ class TextFieldGroup extends Component {
           id={ labelId }
           type={ this.props.type }
           name={ this.props.name }
-          value={ this.props.username }
+          value={ this.props.value }
           className="form-control"
           onChange={ this.props.onChange }
           onBlur={ this.props.checkUserExists }
