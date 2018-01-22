@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import jwt from 'jsonwebtoken';
+import jwtDecode from 'jwt-decode';
 
 import App from './components/App';
 import Greetings from './components/Greetings';
@@ -29,7 +29,7 @@ if (localStorage.jwtToken) {
   setAuthorizationToken(localStorage.jwtToken);
   store.dispatch({
     type: 'successLoginRequest',
-    user: jwt.decode(localStorage.jwtToken),
+    user: jwtDecode(localStorage.jwtToken),
   });
 }
 

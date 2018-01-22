@@ -1,5 +1,5 @@
 import axios from 'axios';
-import jwt from 'jsonwebtoken';
+import jwtDecode from 'jwt-decode';
 
 import history from '../browserHistory';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
@@ -11,7 +11,7 @@ export function userLoginRequest(data) {
       localStorage.setItem('jwtToken', token);
       setAuthorizationToken(token);
 
-      const currentUser = jwt.decode(token);
+      const currentUser = jwtDecode(token);
 
       dispatch({
         type: 'successLoginRequest',
