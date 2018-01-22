@@ -1,3 +1,5 @@
+import setAuthorizationToken from '../utils/setAuthorizationToken';
+
 const initialState = {
   loginRequestErrors: {},
   loginErrors: {},
@@ -24,6 +26,7 @@ export default function (state = initialState, action) {
       });
     case 'userLogout':
       localStorage.removeItem('jwtToken');
+      setAuthorizationToken();
       return Object.assign({}, state, {
         isLoggedIn: false,
         user: {},

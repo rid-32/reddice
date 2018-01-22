@@ -11,6 +11,7 @@ import webpackConfig from '../webpack.config.dev.js';
 
 import users from './routes/users';
 import auth from './routes/auth';
+import events from './routes/events';
 
 let app = express();
 const server = createServer(app);
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.resolve(__dirname, '../public')));
 app.use('/api/users', users);
 app.use('/api/auth', auth);
+app.use('/api/events', events);
 
 const compiler = webpack(webpackConfig);
 

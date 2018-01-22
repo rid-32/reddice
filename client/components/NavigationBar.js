@@ -19,7 +19,7 @@ class NavigationBar extends React.Component {
 
     function showLoginBlock() {
       return [
-        <li key='1' className="nav-item active">
+        <li key='1' className="nav-item">
           <Link to="/signup" className="nav-link">Sign up</Link>
         </li>,
         <li key='2' className="nav-item">
@@ -45,6 +45,9 @@ class NavigationBar extends React.Component {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ml-auto">
+            <li className="nav-item">
+              <Link to="/new-event" className="nav-link">New Event</Link>
+            </li>
             { isLoggedIn ? showLogoutBlock() : showLoginBlock() }
           </ul>
         </div>

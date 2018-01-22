@@ -21,7 +21,7 @@ class TextFieldGroup extends Component {
     const labelId = this.props.name + 'Id';
 
     return (
-      <div className={ formGroupClasses(this.props.errors, this.props.name) }>
+      <div className={ this.props.errors && formGroupClasses(this.props.errors, this.props.name) }>
         <label htmlFor={ labelId } className="control-label">{ this.props.label }</label>
         <input
           id={ labelId }

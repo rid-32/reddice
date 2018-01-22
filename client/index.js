@@ -11,6 +11,7 @@ import App from './components/App';
 import Greetings from './components/Greetings';
 import SignupPage from './components/signup/SignupPage';
 import LoginPage from './components/login/LoginPage';
+import NewEventPage from './components/events/NewEventPage';
 
 import rootReducer from './reducers/rootReducer';
 
@@ -59,6 +60,11 @@ const unlisten = history.listen((location, action) => {
                 <LoginPage />
               </App>
             )
+          )} />
+          <Route path="/new-event" render={ ({ match }) => (
+              <App>
+                <NewEventPage />
+              </App>
           )} />
         </div>
       </Router>
