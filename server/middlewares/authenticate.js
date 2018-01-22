@@ -17,10 +17,10 @@ export default (req, res, next) => {
         User.findById(decoded.id).select('username email').exec().then(user => {
           if (!user) {
             res.status(404).json({ error: 'No such user' });
+          } else {
+            req.currentUser = user;
+            next();
           }
-
-          req.currentUser = user;
-          next();
         }).catch(error => {
           res.status(501).json({ error: 'Internal server error' });
         });
